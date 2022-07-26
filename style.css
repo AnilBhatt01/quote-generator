@@ -120,3 +120,8 @@ button:active{
         color: #4AC959;
     }
 }
+@media screen and (max-width: 400px){
+    .whatsapp-button{
+        color: #4AC959;
+    }
+}
