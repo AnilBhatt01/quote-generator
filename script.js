@@ -1,7 +1,6 @@
 const quoteContainer = document.getElementById("quote-container");
 const quoteText = document.getElementById("quote");
 const authorText = document.getElementById("author");
-const tweetBtn = document.getElementById("twitter");
 const newQuoteBtn = document.getElementById("new-quote");
 const whatsappBtn = document.getElementById("whatsapp");
 const loader = document.getElementById("loader");
@@ -57,15 +56,16 @@ async function getQuotes() {
 
     newQuote();
   } catch (error) {
+    console.log(error);
     // Catch Error Here
   }
 }
 // Tweet Quote
 
-function tweetQuote() {
-  const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteText.textContent} - ${authorText.textContent}`;
-  window.open(twitterUrl, "_blank");
-}
+// function tweetQuote() {
+//   const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteText.textContent} - ${authorText.textContent}`;
+//   window.open(twitterUrl, "_blank");
+// }
 
 // Whatsapp Quote
 
@@ -77,7 +77,7 @@ function whatsappQuote() {
 // Event Listners
 
 newQuoteBtn.addEventListener("click", newQuote);
-tweetBtn.addEventListener("click", tweetQuote);
+// tweetBtn.addEventListener("click", tweetQuote);
 whatsappBtn.addEventListener("click", whatsappQuote);
 
 // Whatsapp Quote
