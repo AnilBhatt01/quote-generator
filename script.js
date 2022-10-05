@@ -1,85 +1,47 @@
-const quoteContainer = document.getElementById("quote-container");
-const quoteText = document.getElementById("quote");
-const authorText = document.getElementById("author");
-const newQuoteBtn = document.getElementById("new-quote");
-const whatsappBtn = document.getElementById("whatsapp");
-const loader = document.getElementById("loader");
+"use strict";
 
-let apiQuotes = [];
+// console.log(document.querySelector(".input"));
+let chances = document.querySelector(".chances").textContent;
 
-/// Show Loading
+document.querySelector(".highScore");
 
-function loading() {
-  loader.hidden = false;
-  quoteContainer.hidden = true;
-}
+let randomNumber = Math.floor(Math.random() * 20 + 1);
+console.log(randomNumber);
 
-// Hide Loading
+document.querySelector(".check").addEventListener("click", () => {
+  let inputValue = Number(document.querySelector(".input").value);
 
-function complete() {
-  quoteContainer.hidden = false;
-  loader.hidden = true;
-}
+  if (!inputValue) {
+    document.querySelector(".result").textContent = "😶 No Value!";
+  } else if (inputValue === randomNumber) {
+    document.querySelector("body").style.backgroundColor = "green";
+    document.querySelector(".input").style.fontSize = "2rem";
+    document.querySelector(".number").textContent = randomNumber;
+    document.querySelector(".result").textContent = "🤩 Correct Answer";
+    document.querySelector(".highScore").textContent = chances;
+  } else if (inputValue !== randomNumber) {
+    chances--;
+    if (chances > 0) {
+      document.querySelector(".chances").textContent = chances;
+    } else {
+      document.querySelector(".chances").textContent = 0;
+    }
 
-//  Show New Quote
-
-function newQuote() {
-  loading();
-  // Pick a random quote from apiQuotes array
-
-  const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
-  // Check if Author field is black and replace it with 'unknown'
-  if (!quote.author) {
-    authorText.textContent = "Unknown";
-  } else {
-    authorText.textContent = quote.author;
+    inputValue > randomNumber
+      ? (document.querySelector(".result").textContent = "👠Too High")
+      : (document.querySelector(".result").textContent = "🥿 Too Low");
   }
-  //Check quote length to determine styling
-  if (quote.text.length > 80) {
-    quoteText.classList.add("long-quote");
-  } else {
-    quoteText.classList.remove("long-quote");
+  if (chances <= 0) {
+    document.querySelector(".result").textContent = "😈 You Lost!";
   }
-  // Set Quote, Hide Loader
-  quoteText.textContent = quote.text;
-  complete();
-}
+});
 
-// Get Quotes from API
-
-async function getQuotes() {
-  loading();
-  const apiUrl = "https://type.fit/api/quotes";
-  try {
-    const response = await fetch(apiUrl);
-    apiQuotes = await response.json();
-
-    newQuote();
-  } catch (error) {
-    console.log(error);
-    // Catch Error Here
-  }
-}
-// Tweet Quote
-
-// function tweetQuote() {
-//   const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteText.textContent} - ${authorText.textContent}`;
-//   window.open(twitterUrl, "_blank");
-// }
-
-// Whatsapp Quote
-
-function whatsappQuote() {
-  const whatsappUrl = `whatsapp://send?text=${quoteText.textContent} - ${authorText.textContent}`;
-  window.open(whatsappUrl, "_black");
-}
-
-// Event Listners
-
-newQuoteBtn.addEventListener("click", newQuote);
-// tweetBtn.addEventListener("click", tweetQuote);
-whatsappBtn.addEventListener("click", whatsappQuote);
-
-// Whatsapp Quote
-
-getQuotes();
+document.querySelector(".reset").addEventListener("click", () => {
+  randomNumber = Math.floor(Math.random() * 20 + 1);
+  document.querySelector(".number").textContent = "?";
+  document.querySelector(".input").value = "";
+  document.querySelector(".chances").textContent = 20;
+  chances = 20;
+  document.querySelector(".result").textContent = "";
+  document.querySelector("body").style.backgroundColor = "#565656";
+});
